@@ -1,0 +1,48 @@
+import React from 'react';
+
+const FacultyProfile = () => {
+    // Faculty details (you can replace these with props or fetched data)
+    const facultyDetails = {
+        name: 'Dr. John Smith',
+        institution: 'National Institute of Technology Calicut',
+        numberOfStudents: 120,
+        officeLocation: 'Room 201, CS Building',
+        approvedRequests: ['Research Paper Approval', 'Budget Request Approval', 'Sabbatical Leave Approval'],
+    };
+
+    return (
+        <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+            {/* Header Section */}
+            <div className="mb-6">
+                <h2 className="text-3xl font-bold text-gray-800">{facultyDetails.name}</h2>
+                <p className="text-gray-600">{facultyDetails.institution}</p>
+            </div>
+
+            {/* Stats Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div className="p-4 bg-gray-100 rounded-md">
+                    <p className="text-sm text-gray-500">Number of Students</p>
+                    <p className="text-lg font-semibold">{facultyDetails.numberOfStudents}</p>
+                </div>
+                <div className="p-4 bg-gray-100 rounded-md">
+                    <p className="text-sm text-gray-500">Office Location</p>
+                    <p className="text-lg font-semibold">{facultyDetails.officeLocation}</p>
+                </div>
+            </div>
+
+            {/* Approved Requests Section */}
+            <div>
+                <h3 className="text-lg font-semibold mb-3">Recently Approved Requests</h3>
+                <ul className="space-y-2">
+                    {facultyDetails.approvedRequests.map((request, index) => (
+                        <li key={index} className="p-4 bg-gray-50 rounded-md shadow-sm">
+                            {request}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+};
+
+export default FacultyProfile;
