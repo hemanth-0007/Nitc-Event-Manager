@@ -9,7 +9,8 @@ import {
     getDetailedRequest,
     acceptRequest,
     rejectRequest,
-    getStudents
+    getStudents,
+    getStudent
 }
 from "../controller/facultyController.js";
 
@@ -22,6 +23,8 @@ facultyRoute.get("/profile/", authenticateToken, getProfile);
 facultyRoute.get("/req/", authenticateToken, getRequests);
 
 facultyRoute.get('/students/', authenticateToken, getStudents);
+
+facultyRoute.get('/student/:studentId', authenticateToken, getStudent);
 
 facultyRoute.get("/req/pending/", authenticateToken, getPendingRequests);
 

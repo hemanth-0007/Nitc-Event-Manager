@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+ 
 
 const authenticateToken = (request, response, next) => {
   let jwtToken;
@@ -15,6 +16,8 @@ const authenticateToken = (request, response, next) => {
             response.status(401);
             response.send({ message: `Invalid JWT Token with error ${error}` });
         } else {
+            // console.log(payload);
+            request.role = payload.role;
             request.email = payload.email;
             request.id = payload.id;
             next();

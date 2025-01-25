@@ -63,6 +63,11 @@ const facultySchema = new Schema({
         ref: 'Request',
         default: [],
     }],
+    notifications : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Notification',
+        default: [],
+    }],
     createdAt: {
         type: Date,
         immutable: true,
@@ -73,6 +78,8 @@ const facultySchema = new Schema({
         default: Role.FACULTY,
         immutable: true,
     },
+},{
+    timestamps: true,
 });
 
 function validateEmail(email){

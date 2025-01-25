@@ -7,7 +7,10 @@ import {
     getPendingRequests,
     addComment,
     getProfile,
-    getDetailedRequest
+    getDetailedRequest,
+    getNotifications,
+    markNotificationAsRead,
+    markAllNotificationsAsRead
 } 
 from "../controller/studentController.js";
 
@@ -35,7 +38,12 @@ studentRoute.get("/profile/", authenticateToken, getProfile);
 
 studentRoute.get("/req/:reqId", authenticateToken, getDetailedRequest);
 
+studentRoute.get('/notifications/', authenticateToken, getNotifications);
 
+
+studentRoute.post('/notifications/mark-as-read/:notificationId', authenticateToken, markNotificationAsRead);
+
+studentRoute.put('/notifications/mark-as-read/', authenticateToken, markAllNotificationsAsRead);
 
 
 studentRoute.get('/test/' , async (req, res) =>{

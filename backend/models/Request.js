@@ -65,12 +65,10 @@ const requestSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Comment',
         default : []
-    }],
-    createdAt : {
-        type: Date,
-        default: Date.now
-    }
-    
+    }] 
+},
+{
+    timestamps: true
 });
 
  

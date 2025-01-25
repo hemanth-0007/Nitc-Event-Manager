@@ -1,18 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+
+import { IoIosNotifications } from "react-icons/io";
+
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import Cookies from "js-cookie";
+import { useSocket } from '../contexts/socketProvider.js';
+
 
 function NavBar() {
   const navigation = [
     { name: 'Home', href: '/student-home', current: false },
-    { name: 'Request Form', href: '/student-request', current: false },
-    { name: 'View Pending Requests', href: '/student-pending-requests', current: false },
+    { name: 'Request', href: '/student-request', current: false },
+    { name: 'Pending', href: '/student-pending-requests', current: false },
+    { name: 'History', href: '/student-history', current: false },
   ];
+
+  const {notifications} = useSocket();
+  const [unReadCount, setUnReadCount] = useState(0);
+  
+  useEffect(() => {
+    let cnt = 0;
+    notifications.forEach((notification) => {
+      if (!notification.isRead) {
+        cnt += 1;
+      }
+    });
+    setUnReadCount(cnt);
+  }, [notifications]);
+
+  const navigate = useNavigate();
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
+
+  const onClickSignOut = (e) => {
+    e.preventDefault();
+    Cookies.remove("token");
+    navigate("/student-login");
+  } 
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -29,11 +59,7 @@ function NavBar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              <img
-                alt="Your Company"
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
-                className="h-8 w-auto"
-              />
+              
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
@@ -56,12 +82,19 @@ function NavBar() {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             {/* Bell icon wrapped in Link */}
             <Link
-              to="/history" // Specify the href for the bell icon
+              to="/student-notification" // Specify the href for the bell icon
               className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="h-6 w-6" />
+              <div className=''>
+                <button type="button" class="relative inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white  rounded-full  focus:ring-4 focus:outline-none">
+                      <IoIosNotifications className='size-6'/>
+                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                          {unReadCount}
+                        </div>
+                </button>
+              </div>
             </Link>
 
             {/* Profile dropdown */}
@@ -72,7 +105,7 @@ function NavBar() {
                   <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    src="https://res.cloudinary.com/drvnhpatd/image/upload/v1730537952/ftk3dmaao954aroyfpme.jpg"
                     className="h-8 w-8 rounded-full"
                   />
                 </MenuButton>
@@ -83,27 +116,20 @@ function NavBar() {
               >
                 <MenuItem>
                   <a
-                    href="#"
+                    href="/student-profile"
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                   >
                     Your Profile
                   </a>
                 </MenuItem>
+                
                 <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-                  >
-                    Settings
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                  <p
+                    onClick={onClickSignOut}
+                    className="hover:cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                   >
                     Sign out
-                  </a>
+                  </p>
                 </MenuItem>
               </MenuItems>
             </Menu>

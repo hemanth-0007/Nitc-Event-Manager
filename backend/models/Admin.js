@@ -20,7 +20,26 @@ const adminSchema = new Schema({
         default: Role.ADMIN,
         immutable: true,
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,     
+        immutable: true,
+        lowercase: true,
+        validate:{
+            validator: validateEmail,
+            message: props => `${props.value} is not a valid email!`
+        }
+    },
 });
+
+function validateEmail(email){
+    // regex for email validation
+    const regex = /^[a-zA-Z0-9._%+-]+@gmail.com$/;
+    return regex.test(email);
+}
+
+
 
 const Admin = mongoose.model("Admin", adminSchema);
 

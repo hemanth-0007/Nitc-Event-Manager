@@ -3,7 +3,7 @@ import Student from '../models/Student.js';
 import Faculty from '../models/Faculty.js';
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-
+import { Role } from '../Enums/role.js';
 
 
  
@@ -52,7 +52,7 @@ export const studentLogin = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
     
         // ******* This is payload to token ********
-        const payload = { id: student._id, email: student.email, role : "student" };
+        const payload = { id: student._id, email: student.email, role : Role.STUDENT };
         // ******* This is payload to token ********
     
         const token = jwt.sign(payload, process.env.SECRET_KEY);
@@ -65,9 +65,9 @@ export const studentLogin = async (req, res) => {
 }
 
 export const facultyRegister = async (req, res) => {
-    const {name, phoneNo, email, password} = req.body;
+    const {name, phoneNo, email, password, department} = req.body;
 
-    if(!name || !phoneNo || !email || !password) 
+    if(!name || !phoneNo || !email || !password || !department) 
         return res.status(400).json({ message: 'All fields are required' });
 
     const dbFaculty = await Faculty.findOne({email});
@@ -78,15 +78,16 @@ export const facultyRegister = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-        const faculty = await Faculty.create({
+        const dbFaculty = await Faculty.create({
             name,
             email,
             password : hashedPassword,
-            phoneNo
+            phoneNo,
+            department
         });
-        return res.status(201).json({ faculty });
+        return res.status(201).send(dbFaculty);
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+        return res.status(500).json({ message : error.message });
     }
 }
 
@@ -109,7 +110,7 @@ export const facultyLogin = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
     
         // ******* This is payload to token ********
-        const payload = { id: faculty._id, email: faculty.email, role : "faculty" };
+        const payload = { id: faculty._id, email: faculty.email, role : Role.FACULTY };
         // ******* This is payload to token ********
     
         const token = jwt.sign(payload, process.env.SECRET_KEY);

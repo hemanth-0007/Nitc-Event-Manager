@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoute from './routes/auth.js';
@@ -7,6 +6,19 @@ import studentRoute from './routes/student.js';
 import facultyRoute from './routes/faculty.js';
 import adminRoute from './routes/admin.js';
 
+import http from 'http';
+import { Server } from "socket.io";
+
+import { connectDB } from './config/connectDb.js';
+
+
+import { getUserIdFromToken } from './utility/getUserId.js';
+
+
+import jwt from 'jsonwebtoken';
+import { sendEmail } from './config/emailConfig.js';
+
+// Load the environment variables
 dotenv.config();
 
 
@@ -18,22 +30,73 @@ app.use(cors());
 app.use(express.json());
 
 
-// Connect to the database
-const uri = process.env.MONGO_URI;
-const  connectDB = async () => {
-    try {
-        await mongoose.connect(uri);
-        console.log('Connected to the database');
-    } catch (error) {
-        console.error(`Error connecting to the database ${error.message}`);
-        process.exit(1);
+
+// Create a HTTP server
+const httpServer = http.createServer(app);
+// Create a socket.io instance
+const frontendUrl = process.env.FRONTEND_URL;
+const io = new Server(httpServer, {
+    cors: {
+        origin: frontendUrl,
+        methods: ['GET', 'POST']
     }
-}
-// call the connectDB function
-connectDB();
+});
+
+// Connect to the mongoDB Atlas through MONGO_URI
+const uri = process.env.MONGO_URI; 
+connectDB(uri);
+
+// Socket.io connection
+io.on('connection', (socket) => {
+    
+    const token = socket.handshake.auth.token;
+    let userId = null;
+    if (token === undefined || token === null || token === ""){
+        return new Error("Invalid token");
+    }
+   
+     jwt.verify(token, process.env.SECRET_KEY, async (error, payload) => {
+       if (error) {
+           return new Error("Token verification failed");
+       } 
+       else {
+           console.log(payload.id);
+           userId = payload.id;
+        //    console.log('User connected:', userId);
+           if (userId) {
+               console.log('User connected:', userId);
+               socket.join(userId);
+           }
+       }
+    });
+    
+ 
+
+    socket.on('disconnect', () => {
+        if(userId) {
+            socket.leave(userId);
+        }
+    });
+});
+
+// can be accessed in other files using req.app.get('io')
+app.set('io', io);
 
 
-app.get('/', (req, res) => {
+
+
+
+
+
+
+app.get('/', async (req, res) => {
+
+    try {
+        await sendEmail();
+    } catch (error) {
+        console.log(error); 
+    }
+
     res.send('Ok its working');
 });
 
@@ -44,6 +107,12 @@ app.use('/api/admin', adminRoute);
 
 
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+
+
+
+
+

@@ -1,14 +1,57 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Cookies from 'js-cookie';
+
 
 const AdminLogin = () => {
     const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+    const [error, setError] = useState("");
 
     // Function to handle login and navigate to home page
     const handleLogin = () => {
         // You can add authentication logic here
         navigate('/admin-home'); // Redirect to the home page
     };
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+     
+    
+        const url = `${process.env.REACT_APP_API_URL}/api/admin/login/`;
+    
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+    
+        const response = await fetch(url, options);
+    
+        if(response.ok){
+          const data = await response.json();
+          console.log(data);
+          console.log("admin login successful");
+          Cookies.set("token", data.token);
+          navigate('/admin-home');
+        }
+        else{
+          const data = await response.json();
+          console.log(data);
+          console.log("admin login failed");
+          setError(data.message);
+        }
+        // navigate('/admin-home');
+      };
+    
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900">
@@ -27,6 +70,7 @@ const AdminLogin = () => {
                             id="username"
                             type="text"
                             placeholder="Enter your username"
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         />
                     </div>
                     <div className="mb-8">
@@ -41,13 +85,15 @@ const AdminLogin = () => {
                             id="password"
                             type="password"
                             placeholder="Enter your password"
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
                     </div>
+                    <p className='text-white'>{error}</p>
                     <div className="flex items-center justify-between">
                         <button
                             className="bg-purple-700 hover:bg-purple-800 text-white font-extrabold py-3 px-6 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-600"
                             type="button"
-                            onClick={handleLogin}
+                            onClick={handleSubmit}
                         >
                             Login
                         </button>

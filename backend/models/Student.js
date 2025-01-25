@@ -70,6 +70,11 @@ const studentSchema = new Schema({
         ref: 'Request',
         default: [],
     }],
+    notifications : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Notification',
+        default: [],
+    }],
     createdAt: {
         type: Date,
         immutable: true,
