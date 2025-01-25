@@ -5,7 +5,7 @@ const mailerSend = new MailerSend({
   apiKey: process.env.MAILER_SEND_API_KEY,
 });
 
-const sentFrom = new Sender("MS_4oD8gJ@trial-yzkq3409d7x4d796.mlsender.net", "Hemanth");
+// const sentFrom = new Sender("796.mlsender.net", "Hemanth");
 
 const recipients = [
   new Recipient("hsai19172@gmail.com", "Hemanth Sai")
