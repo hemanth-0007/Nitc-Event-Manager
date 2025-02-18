@@ -1,5 +1,5 @@
 import FacultyNavbar from "./FacultyNavbar";
-import EmptyNotification from "./EmptyNotification";
+import EmptyNotification from "../EmptyNotification";
 
 const FacultyNotification = () =>{
     const notifications = [];

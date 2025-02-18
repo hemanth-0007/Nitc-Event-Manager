@@ -1,17 +1,15 @@
 import React from "react";
-import NavBar from "./StudentNavbar";
+
 import { useParams } from "react-router-dom";
 
 import { useState, useEffect } from "react";
 
 import Cookies from "js-cookie";
 
-import { Role } from "../constants/roles";
+import { Role } from "../../constants/roles";
+import AdminNavbar from "./AdminNavbar";
 
-import { useSocket } from "../contexts/socketProvider.js";
-
-const StudentReqDetailedView = (props) => {
-  // this is the request id
+const AdminDetailedView = (props) => {
   const { id } = useParams();
 
   const [request, setRequest] = useState({});
@@ -20,7 +18,7 @@ const StudentReqDetailedView = (props) => {
 
   const getRequestData = async () => {
     const token = Cookies.get("token");
-    const url = `${process.env.REACT_APP_API_URL}/api/student/req/${id}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/admin/request/${id}`;
     const options = {
       method: "GET",
       headers: {
@@ -43,38 +41,10 @@ const StudentReqDetailedView = (props) => {
       console.log(error.message);
     }
   };
+
   useEffect(() => {
     getRequestData();
-  }, [id]); // this is to trigger a re-render
-
- 
-
-  const { socket, setNotification } = useSocket();
-
-  useEffect(() => {
-    if (!socket) return;
-
-    const handleComment = (reqId, comment, notification) => {
-
-      if(notification){
-        setNotification(notification);
-      }
-
-      if (reqId === id ) {
-        setRequest((prev) => ({
-          ...prev,
-          comments: [...prev.comments, comment],
-        }));
-      }
-    };
-
-    socket.on("student-notification-comment", handleComment);
-
-    // Cleanup function to remove the listener
-    return () => {
-      socket.off("student-notification-comment", handleComment);
-    };
-  }, [socket, id]);
+  }, []);
 
   const renderComments = () => {
     return request.comments.map((comment, index) => (
@@ -82,48 +52,19 @@ const StudentReqDetailedView = (props) => {
         key={index}
         className={`p-4 rounded-lg ${
           comment.sender === Role.STUDENT
-            ? "bg-blue-50 flex flex-row justify-end"
-            : "bg-green-50"
+            ? "bg-blue-50 hover:bg-blue-100"
+            : "bg-green-50 hover:bg-green-100"
         }`}
       >
         <div>
           <p className="text-gray-700 mb-2">{comment.content}</p>
           <div className="text-xs text-gray-500">
-            {comment.sender === Role.STUDENT ? "YOU" : "FACULTY"} |{" "}
+            {comment.sender === Role.STUDENT ? Role.STUDENT : Role.FACULTY} |{" "}
             {new Date(comment.createdAt).toLocaleString()}
           </div>
         </div>
       </div>
     ));
-  };
-
-  const onClickSubmitComment = async () => {
-    const url = `${process.env.REACT_APP_API_URL}/api/student/req/comment/${id}`;
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("token")}`,
-      },
-      body: JSON.stringify({
-        content: comment,
-      }),
-    };
-    try {
-      const response = await fetch(url, options);
-      if (response.ok) {
-        const data = await response.json();
-        // console.log(data);
-        getRequestData();
-      } else {
-        const data = await response.json();
-        console.log(data);
-        console.log("error");
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-    setComment("");
   };
 
   const onClickDownloadDocument = async (e) => {
@@ -140,16 +81,9 @@ const StudentReqDetailedView = (props) => {
     e.target.classList.remove("bg-gray-400", "cursor-not-allowed");
   };
 
-  const onKeyDownSubmitComment = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      onClickSubmitComment();
-    }
-  };
-
   return (
     <div>
-      <NavBar />
+      <AdminNavbar />
 
       <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg my-8">
         <h1 className="text-3xl font-bold mb-4 text-gray-800">
@@ -176,6 +110,16 @@ const StudentReqDetailedView = (props) => {
             </span>
           </div>
         </div>
+        <div className="my-3 flex flex-wrap items-center gap-6 text-lg text-gray-600">
+          <div>
+            <span className="font-semibold">Student:</span>{" "}
+            {(request.student && request.student.name) || "NA"}
+          </div>
+          <div>
+            <span className="font-semibold">Faculty:</span>{" "}
+            {(request.faculty && request.faculty.name) || "NA"}
+          </div>
+        </div>
         <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600">
           <div>
             <span className="font-semibold">Start Time:</span>{" "}
@@ -189,6 +133,7 @@ const StudentReqDetailedView = (props) => {
             <span className="font-semibold">Location:</span> {request.location}
           </div>
         </div>
+
         {request.document && (
           <div className="mt-4">
             <button
@@ -209,30 +154,10 @@ const StudentReqDetailedView = (props) => {
               <p>No Comments posted yet</p>
             )}
           </div>
-
-          <div className="mt-6">
-            <h3 className="text-lg font-medium mb-2 text-gray-700">
-              Add a Comment
-            </h3>
-            <textarea
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="3"
-              placeholder="Write your comment..."
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              onKeyDown={onKeyDownSubmitComment}
-            ></textarea>
-            <button
-              className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-              onClick={onClickSubmitComment}
-            >
-              Submit Comment
-            </button>
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default StudentReqDetailedView;
+export default AdminDetailedView;

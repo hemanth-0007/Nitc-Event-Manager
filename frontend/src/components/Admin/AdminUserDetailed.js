@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import StudentCard from "./StudentCard";
+import StudentCard from "../Student/StudentCard";
 
 const AdminUserDetailed = () => {
   const nagivate = useNavigate();

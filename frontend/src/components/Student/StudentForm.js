@@ -2,11 +2,11 @@ import React from 'react';
 import NavBar from './StudentNavbar';
 import { useState, useEffect } from 'react';
 
-import { Places , LocationArray} from '../constants/location.js';
+import { Places , LocationArray} from '../../constants/location.js';
 
-import { RequestType } from '../constants/requestType.js';
+import { RequestType } from '../../constants/requestType.js';
 
-import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from '../constants/global.js';
+import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from '../../constants/global.js';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';

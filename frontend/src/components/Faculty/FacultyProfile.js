@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 
 import { useNavigate } from "react-router-dom";
 
-import { StatusType } from "../constants/StatusTypes";
+import { StatusType } from "../../constants/StatusTypes";
 
 const FacultyProfile = () => {
   const [facultyDetails, setFacultyDetails] = useState({});

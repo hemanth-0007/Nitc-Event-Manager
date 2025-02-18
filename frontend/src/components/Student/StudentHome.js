@@ -1,6 +1,6 @@
 
 import NavBar from "./StudentNavbar"
-import HomePage from "./HomePage"
+import HomePage from "../HomePage"
 
 const StudentHome = () => { 
     return <HomePage component={<NavBar />} />;

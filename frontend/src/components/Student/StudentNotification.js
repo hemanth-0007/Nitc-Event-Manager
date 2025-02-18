@@ -1,8 +1,8 @@
 import React from 'react';
 import NavBar from './StudentNavbar';
-import EmptyNotification from './EmptyNotification';
+import EmptyNotification from '../EmptyNotification.js';
 
-import { useSocket } from '../contexts/socketProvider.js';
+import { useSocket } from '../../contexts/socketProvider.js';
 
 
 
