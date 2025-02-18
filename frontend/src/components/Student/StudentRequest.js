@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "./StudentNavbar";
-import Requests from "./Requests";
+import Requests from "../Requests";
 
 const StudentRequest = () => {
   const url = `${process.env.REACT_APP_API_URL}/api/student/req/pending/`

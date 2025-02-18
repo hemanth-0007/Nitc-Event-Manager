@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./StudentNavbar";
+import NavBar from "./Student/StudentNavbar";
 import homepageImage from "../assets/homepage.jpg";
 
 

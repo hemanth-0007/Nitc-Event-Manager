@@ -11,7 +11,7 @@ import FacultyNavbar from "./FacultyNavbar";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
-import { useSocket } from "../contexts/socketProvider.js";
+import { useSocket } from "../../contexts/socketProvider.js";
 
 const FacultyReqDetailedView = (props) => {
   const reqTypes = {

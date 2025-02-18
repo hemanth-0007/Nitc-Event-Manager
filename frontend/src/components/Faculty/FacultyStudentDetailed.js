@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
 
-import StudentCard from "./StudentCard";
+import StudentCard from "../Student/StudentCard";
 
 // import react loader spinner
 import {TailSpin} from "react-loader-spinner";

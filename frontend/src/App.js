@@ -1,47 +1,46 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LoginPage from './components/StudentLogin';
-import HomePage from './components/StudentHome';
-import RequestForm from './components/StudentForm';
-import StudentRequest from './components/StudentRequest';
-import StudentNotification from './components/StudentNotification.js';
-import StudentHistory from './components/StudentHistory.js';
-import StudentProfile from './components/StudentProfile.js';
-import StudentReqDetailedView from './components/StudentReqDetailedView.js';
+import LoginPage from './components/Student/StudentLogin.js';
+import HomePage from './components/Student/StudentHome.js';
+import RequestForm from './components/Student/StudentForm.js';
+import StudentRequest from './components/Student/StudentRequest.js';
+import StudentNotification from './components/Student/StudentNotification.js';
+import StudentHistory from './components/Student/StudentHistory.js';
+import StudentProfile from './components/Student/StudentProfile.js';
+import StudentReqDetailedView from './components/Student/StudentReqDetailedView.js';
 
-import FacultyLogin from './components/FacultyLogin';
-import FacultyHome from './components/FacultyHome';
-import FacultyRequests from './components/FacultyRequests';
-import FacultyReqDetailedView from './components/FacultyReqDetailedView.js';
+import FacultyLogin from './components/Faculty/FacultyLogin.js';
+import FacultyHome from './components/Faculty/FacultyHome.js';
+import FacultyRequests from './components/Faculty/FacultyRequests.js';
+import FacultyReqDetailedView from './components/Faculty/FacultyReqDetailedView.js';
  
 
 
-import FacultyStudents from './components/FacultyStudents.js';
-import FacultyHistory from './components/FacultyHistory.js';
-import FacultyProfile from './components/FacultyProfile';
-import FacultyNotification from './components/FacultyNotification.js';
+import FacultyStudents from './components/Faculty/FacultyStudents.js';
+import FacultyHistory from './components/Faculty/FacultyHistory.js';
+import FacultyProfile from './components/Faculty/FacultyProfile.js';
+import FacultyNotification from './components/Faculty/FacultyNotification.js';
+import FacultyStudentDetailed from './components/Faculty/FacultyStudentDetailed.js';
 
-import Admin from './components/admin.js';
-import AdminLogin from './components/AdminLogin.js';
 import ManageRequests from './components/ManageRequests.js';
 import ManageUsers from './components/ManageUsers.js';
-import ProtectedRoute from './components/ProtectedRoute.js';
-import AdminHome from './components/AdminHome.js';
+import ProtectedRoute from './components/ProtectRoutes/ProtectedRoute.js';
 
 
 import { Role } from './constants/roles.js';
 
-import AdminDetailedView from './components/AdminDetailedView.js';
-import AdminRequests from './components/AdminRequests.js';
-import AdminManageUsers from './components/AdminManageUsers.js';
-import AdminManageFaculty from './components/AdminManageFaculty.js';
-import AdminUserDetailed from './components/AdminUserDetailed.js';
-import AdminFacultyDetailed from './components/AdminFacultyDetailed.js';
-import FacultyStudentDetailed from './components/FacultyStudentDetailed.js';
+import AdminLogin from './components/Admin/AdminLogin.js';
+import AdminHome from './components/Admin/AdminHome.js';
+import AdminDetailedView from './components/Admin/AdminDetailedView.js';
+import AdminRequests from './components/Admin/AdminRequests.js';
+import AdminManageUsers from './components/Admin/AdminManageUsers.js';
+import AdminManageFaculty from './components/Admin/AdminManageFaculty.js';
+import AdminUserDetailed from './components/Admin/AdminUserDetailed.js';
+import AdminFacultyDetailed from './components/Admin/AdminFacultyDetailed.js';
+import AdminCreateUser from './components/Admin/AdminCreateUsers/AdminCreateUser.js';
 
 import {io} from 'socket.io-client';
 import Cookies from 'js-cookie';
-
 
 function App() {
 
@@ -77,6 +76,7 @@ function App() {
         <Route path="/admin-detailedview/:id" element={<ProtectedRoute role={Role.ADMIN} element={<AdminDetailedView />} />} />
         <Route path="/admin-user-detailed/:id" element={<ProtectedRoute role={Role.ADMIN} element={<AdminUserDetailed />} />} />
         <Route path="/admin-faculty-detailed/:id" element={<ProtectedRoute role={Role.ADMIN} element={<AdminFacultyDetailed />} />} />
+        <Route path="/admin-add" element={<ProtectedRoute role={Role.ADMIN} element={<AdminCreateUser />} />} />
 
 
 

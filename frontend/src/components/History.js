@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./StudentNavbar";
+import NavBar from "./Student/StudentNavbar.js";
 
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";

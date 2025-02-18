@@ -1,5 +1,5 @@
 
-import HomePage from "./HomePage";
+import HomePage from "../HomePage";
 import AdminNavbar from "./AdminNavbar";
 
 const AdminHome = () => {
