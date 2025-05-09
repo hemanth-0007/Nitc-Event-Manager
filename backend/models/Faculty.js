@@ -68,11 +68,6 @@ const facultySchema = new Schema({
         ref: 'Notification',
         default: [],
     }],
-    createdAt: {
-        type: Date,
-        immutable: true,
-        default: Date.now
-    },
     role : {
         type: String,
         default: Role.FACULTY,

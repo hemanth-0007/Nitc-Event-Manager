@@ -5,7 +5,10 @@ import {
     studentRegister,
     studentLogin,
     facultyRegister,
-    facultyLogin
+    facultyLogin,
+    studentForgotPassword, 
+    studentVerifyOtp,
+    studentResetPassword
 } from "../controller/authController.js";
 
 
@@ -21,6 +24,12 @@ authRoute.post("/faculty/register/", facultyRegister);
 
 authRoute.post("/faculty/login/", facultyLogin);
 
+
+authRoute.post("/student/forgot-password/", studentForgotPassword);
+
+authRoute.post("/student/verify-otp/", studentVerifyOtp);
+
+authRoute.post("/student/reset-password/", studentResetPassword);
 
 
 

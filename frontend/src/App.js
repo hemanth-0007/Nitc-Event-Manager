@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './components/Student/StudentLogin.js';
 import HomePage from './components/Student/StudentHome.js';
@@ -39,34 +39,24 @@ import AdminUserDetailed from './components/Admin/AdminUserDetailed.js';
 import AdminFacultyDetailed from './components/Admin/AdminFacultyDetailed.js';
 import AdminCreateUser from './components/Admin/AdminCreateUsers/AdminCreateUser.js';
 
-import {io} from 'socket.io-client';
-import Cookies from 'js-cookie';
+
+
+import ForgotPassword from './components/ForgotPassword.js';
+import ResetPassword from './components/ResetPassword.js';
+
+ 
 
 function App() {
 
-  // useEffect(() => {
-  //   const socket = io('http://localhost:8082',  {
-  //     auth: {
-  //       token: localStorage.getItem('token')
-  //     }
-  //   });
  
-  //   socket.on('connect', () => {
-  //     console.log('Connected to the server', socket.id);
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //     console.log('Disconnected from the server');
-  //   };
-  // }, []);
-
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/student-login" element={<LoginPage />} />
+        <Route path="/student/forgot-password" element={<ForgotPassword />} />
+        <Route path="/student/reset-password" element={<ResetPassword />} />
         
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-home" element={<ProtectedRoute role={Role.ADMIN} element={<AdminHome />} />} />

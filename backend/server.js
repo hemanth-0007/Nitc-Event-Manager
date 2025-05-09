@@ -11,12 +11,9 @@ import { Server } from "socket.io";
 
 import { connectDB } from './config/connectDb.js';
 
-
-import { getUserIdFromToken } from './utility/getUserId.js';
-
-
+ 
 import jwt from 'jsonwebtoken';
-import { sendEmail } from './config/emailConfig.js';
+ 
 
 // Load the environment variables
 dotenv.config();
@@ -87,19 +84,10 @@ app.set('io', io);
 
 
 
-
-
-app.get('/', async (req, res) => {
-
-    try {
-        await sendEmail();
-    } catch (error) {
-        console.log(error); 
-    }
-
-    res.send('Ok its working');
+app.get('/', (req, res) => {
+    res.send('Server is running!');
 });
-
+ 
 app.use('/api/auth', authRoute);
 app.use('/api/student', studentRoute);
 app.use('/api/faculty', facultyRoute);

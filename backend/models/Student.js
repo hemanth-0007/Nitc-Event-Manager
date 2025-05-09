@@ -11,7 +11,7 @@ const studentSchema = new Schema({
         required: true,
         validate:{
             validator: function(v){
-                return /^[a-zA-Z\s]*$/.test(v);
+                return /^[a-zA-Z\s.]*$/.test(v);
             },
             message: props => `${props.value} is not a valid name!`
         }
@@ -63,7 +63,8 @@ const studentSchema = new Schema({
     faculty : {
         type: Schema.Types.ObjectId,
         ref: 'Faculty',
-        default : null
+        default : null,
+        required: true,
     },
     requests: [{
         type: Schema.Types.ObjectId,
@@ -75,22 +76,28 @@ const studentSchema = new Schema({
         ref: 'Notification',
         default: [],
     }],
-    createdAt: {
-        type: Date,
-        immutable: true,
-        default: Date.now
-    },
     role : {
         type: String,
         default: Role.STUDENT,
         immutable: true,
     },
+    resetPasswordOTP: {
+        type: String,
+        default: null,
+    },
+    resetPasswordOTPExpiry: {
+        type: Date,
+        default: null,
+    },
+},
+{
+    timestamps: true,
 });
 
 function validateEmail(email){
     // regex for email validation
-    const regex = /^[a-zA-Z0-9._%+-]+@nitc\.ac\.in$/;
-    return regex.test(email);
+    const nitcMailRegex = /^[a-zA-Z0-9._%+-]+@nitc\.ac\.in$/;
+    return nitcMailRegex.test(email);
 }
 
 
