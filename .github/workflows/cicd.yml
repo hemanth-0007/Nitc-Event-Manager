@@ -1,0 +1,34 @@
+name: Deploy to EC2 via Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+  MONGO_URI: ${{ secrets.MONGO_URI }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+  GMAIL: ${{ secrets.GMAIL }}
+  GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run containers with envs
+        run: |
+          export REACT_APP_API_URL=$REACT_APP_API_URL
+          export MONGO_URI=$MONGO_URI
+          export SECRET_KEY=$SECRET_KEY
+          export FRONTEND_URL=$FRONTEND_URL
+          export GMAIL=$GMAIL
+          export GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD
+          
+          docker-compose down
+          docker-compose build --no-cache
+          docker-compose up -d --force-recreate
