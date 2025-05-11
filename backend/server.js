@@ -41,6 +41,7 @@ const io = new Server(httpServer, {
 
 // Connect to the mongoDB Atlas through MONGO_URI
 const uri = process.env.MONGO_URI; 
+console.log("uri is ", uri);
 connectDB(uri);
 
 // Socket.io connection
