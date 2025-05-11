@@ -5,11 +5,11 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI: ${MONGO_URI}
-      - SECRET_KEY: ${SECRET_KEY}
-      - FRONTEND_URL: ${FRONTEND_URL}
-      - GMAIL: ${GMAIL}
-      - GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
+      MONGO_URI: ${MONGO_URI}
+      SECRET_KEY: ${SECRET_KEY}
+      FRONTEND_URL: ${FRONTEND_URL}
+      GMAIL: ${GMAIL}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
 
   # frontend:
   #   build:
