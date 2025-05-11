@@ -9,7 +9,7 @@ import adminRoute from './routes/admin.js';
 import http from 'http';
 import { Server } from "socket.io";
 
-import { connectDB } from './config/connectDb.js';
+import { connectDB } from './config/connectDB.js';
 
  
 import jwt from 'jsonwebtoken';
