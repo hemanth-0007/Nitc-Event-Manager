@@ -1,6 +1,6 @@
 # Build Stage
 FROM node:18-alpine as builder
-WORKDIR /app
+WORKDIR /app/frontend
 
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
