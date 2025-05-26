@@ -50,14 +50,15 @@ jobs:
     needs: build-and-push
     runs-on: self-hosted
     steps:
+      - name: Stop all the docker containers and remove all the images
+        run: |
+          sudo docker stop $(sudo docker ps -aq) || true
+          sudo docker rm $(sudo docker ps -aq) || true
+          sudo docker rmi $(sudo docker images -q) || true
       - name: Pull Docker images
         run: |
           sudo docker pull hemanth0007/event-manager-frontend:v1.0
           sudo docker pull hemanth0007/event-manager-backend:v1.0
-      - name: Stop and remove existing containers
-        run: |
-          sudo docker-compose down
-          sudo docker-compose rm -f
       - name: create .env file
         run: |
           echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> .env
