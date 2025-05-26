@@ -55,8 +55,8 @@ jobs:
     
       - name: Pull Docker images
         run: |
-          docker pull hemanth0007/event-manager-react-image:latest
-          docker pull hemanth0007/event-manager-backend:latest
+          sudo docker pull hemanth0007/event-manager-react-image:latest
+          sudo docker pull hemanth0007/event-manager-backend:latest
       - name: Stop and remove existing containers
         run: |
           sudo docker-compose down
