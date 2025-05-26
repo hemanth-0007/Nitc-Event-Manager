@@ -54,11 +54,6 @@ jobs:
         run: |
           sudo docker pull hemanth0007/event-manager-react-image:1
           sudo docker pull hemanth0007/event-manager-backend:1
-      - name: Stop and remove existing containers
-        run: |
-          sudo docker-compose down
-          sudo docker-compose rm -f
-
       - name: create .env file
         run: |
           echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> .env
