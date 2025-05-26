@@ -243,3 +243,8 @@ export const unreadCount = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+
+export const studentTest = async (req, res) => {
+  return res.status(200).json({ message: "Student route working" });
+};
