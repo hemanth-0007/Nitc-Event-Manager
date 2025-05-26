@@ -45,36 +45,45 @@ jobs:
           context: ./backend
           push: true
           tags: hemanth0007/event-manager-backend:v1.0
-
+    
   deploy:
     needs: build-and-push
     runs-on: self-hosted
     steps:
+      - name: Checkout code # <--- ADD THIS STEP
+        uses: actions/checkout@v3
+
       - name: Stop all the docker containers and remove all the images
         run: |
           sudo docker stop $(sudo docker ps -aq) || true
           sudo docker rm $(sudo docker ps -aq) || true
-          sudo docker rmi $(sudo docker images -q) || true
+          # Consider if you really want to remove ALL images every time.
+          # This might remove base images or other unrelated images.
+          # A more targeted removal might be better.
+          # sudo docker rmi $(sudo docker images -q) || true
+
       - name: Pull Docker images
         run: |
           sudo docker pull hemanth0007/event-manager-frontend:v1.0
           sudo docker pull hemanth0007/event-manager-backend:v1.0
-      - name: create .env file
+
+      - name: Create .env file
         run: |
-          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> .env
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env # Use > to create or overwrite
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
           echo "GMAIL=${{ secrets.GMAIL }}" >> .env
           echo "GMAIL_APP_PASSWORD=${{ secrets.GMAIL_APP_PASSWORD }}" >> .env
-      - name: Run containers with envs
+
+      - name: Run containers with docker-compose
         run: |
-          export REACT_APP_API_URL=$REACT_APP_API_URL
-          export MONGO_URI=$MONGO_URI
-          export SECRET_KEY=$SECRET_KEY
-          export FRONTEND_URL=$FRONTEND_URL
-          export GMAIL=$GMAIL
-          export GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD
-          
-          sudo docker-compose down
+          # The export commands here are not necessary for docker-compose --env-file
+          # docker-compose will read variables from the .env file directly.
+
+          # Ensure your docker-compose.yml is in the root of your repository
+          # or specify its path with -f if it's elsewhere, e.g.,
+          # sudo docker-compose -f path/to/your/docker-compose.yml --env-file .env up -d --force-recreate
+
+          sudo docker-compose down || true # Allow to fail if no containers are running
           sudo docker-compose --env-file .env up -d --force-recreate
