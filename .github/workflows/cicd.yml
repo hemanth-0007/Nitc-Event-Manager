@@ -50,9 +50,6 @@ jobs:
     needs: build-and-push
     runs-on: self-hosted
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-    
       - name: Pull Docker images
         run: |
           sudo docker pull hemanth0007/event-manager-react-image:latest
