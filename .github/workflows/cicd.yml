@@ -46,7 +46,7 @@ jobs:
           push: true
           tags: hemanth0007/event-manager-backend 
 
-  deploy:
+  deploy-on-ec2:
     needs: build-and-push
     runs-on: self-hosted
     steps:
