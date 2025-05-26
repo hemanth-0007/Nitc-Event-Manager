@@ -50,6 +50,10 @@ jobs:
     needs: build-and-push
     runs-on: self-hosted
     steps:
+      - name: Remove the existing Docker containers and Images
+        run: |
+          sudo docker rm -f $(sudo docker ps -aq) || true
+          sudo docker rmi -f $(sudo docker images -q) || true
       - name: Pull Docker images
         run: |
           sudo docker pull hemanth0007/event-manager-react-image:1
