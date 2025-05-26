@@ -62,6 +62,16 @@ jobs:
           echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
           echo "GMAIL=${{ secrets.GMAIL }}" >> .env
           echo "GMAIL_APP_PASSWORD=${{ secrets.GMAIL_APP_PASSWORD }}" >> .env
+      - name: Verify .env file
+        run: |
+          if [ ! -f .env ]; then
+            echo ".env file not found!"
+            exit 1
+          fi
+
+      - name: Print .env contents
+        run: cat .env
+        
       - name: Run containers with envs
         run: |
           export REACT_APP_API_URL=$REACT_APP_API_URL
