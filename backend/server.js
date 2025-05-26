@@ -89,10 +89,10 @@ app.get('/', (req, res) => {
     res.send('Server is running!');
 });
  
-app.use('api/auth', authRoute);
-app.use('api/student', studentRoute);
-app.use('api/faculty', facultyRoute);
-app.use('api/admin', adminRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/student', studentRoute);
+app.use('/api/faculty', facultyRoute);
+app.use('/api/admin', adminRoute);
 
 
 
