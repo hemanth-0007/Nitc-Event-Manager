@@ -17,5 +17,3 @@ services:
       - "3000:3000"
     environment:
       REACT_APP_API_URL: ${REACT_APP_API_URL}
-    args:
-      - REACT_APP_API_URL=${REACT_APP_API_URL}

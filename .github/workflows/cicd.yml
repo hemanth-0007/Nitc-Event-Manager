@@ -36,6 +36,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./frontend
+          build-args: |
+            REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
           push: true
           tags: hemanth0007/event-manager-frontend:v1.0
 
