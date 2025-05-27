@@ -24,14 +24,14 @@ const port = 5000;
 
 
 const corsOptions = {
-    origin: "*", // Allow all origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: "http://localhost:3000", // Replace with your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }
 
 // Middleware
 app.use(cors(corsOptions));
 
-app.options('*', cors(corsOptions)); // Pre-flight request for CORS
+// app.options('*', cors(corsOptions)); // Pre-flight request for CORS
 
 // Middleware to parse JSON bodies
 app.use(express.json());
