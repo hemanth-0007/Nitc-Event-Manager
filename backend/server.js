@@ -24,8 +24,8 @@ const port = 5000;
 
 
 const corsOptions = {
-    origin: "http://localhost:3000", // Replace with your frontend URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    origin: ["*"], // Replace with your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }
 
 // Middleware
