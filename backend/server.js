@@ -23,14 +23,10 @@ const app = express();
 const port = 5000;
 
 
-const corsOptions = {
-    origin: ["*"],  
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}
-     
+ 
 
 // Middleware
-app.use(cors(corsOptions));
+app.use(cors());
 
 // app.options('*', cors(corsOptions)); // Pre-flight request for CORS
 

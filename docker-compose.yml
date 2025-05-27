@@ -10,6 +10,7 @@ services:
       FRONTEND_URL: ${FRONTEND_URL}
       GMAIL: ${GMAIL}
       GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
+      restart: unless-stopped
 
   frontend:
     image: hemanth0007/event-manager-frontend:v1.0
@@ -17,3 +18,4 @@ services:
       - "3000:3000"
     environment:
       REACT_APP_API_URL: ${REACT_APP_API_URL}
+    restart: unless-stopped
