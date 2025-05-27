@@ -4,13 +4,13 @@ services:
     image: hemanth0007/event-manager-backend:v1.0
     ports:
       - "5000:5000"
+    restart: unless-stopped
     environment:
       MONGO_URI: ${MONGO_URI}
       SECRET_KEY: ${SECRET_KEY}
       FRONTEND_URL: ${FRONTEND_URL}
       GMAIL: ${GMAIL}
       GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
-      restart: unless-stopped
 
   frontend:
     image: hemanth0007/event-manager-frontend:v1.0
