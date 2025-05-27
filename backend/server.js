@@ -24,8 +24,10 @@ const port = 5000;
 
 
 const corsOptions = {
-    origin: ["*"], // Replace with your frontend URL
+    origin: "http://65.0.55.97:3000/", // Your React app's URL from the .env file
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+    credentials: true, // Allow credentials like cookies, authorization headers, etc.
 }
 
 // Middleware
