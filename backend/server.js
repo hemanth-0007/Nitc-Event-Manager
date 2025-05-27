@@ -22,8 +22,18 @@ dotenv.config();
 const app = express();
 const port = 5000;
 
+
+const corsOptions = {
+    origin: "*", // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions)); // Pre-flight request for CORS
+
+// Middleware to parse JSON bodies
 app.use(express.json());
 
 
