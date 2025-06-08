@@ -8,7 +8,6 @@ import adminRoute from './routes/admin.js';
 
 import http from 'http';
 import { Server } from "socket.io";
-
 import { connectDB } from './config/connectDB.js';
 
  
@@ -28,7 +27,8 @@ const port = 5000;
 // Middleware
 app.use(cors());
 
-// app.options('*', cors(corsOptions)); // Pre-flight request for CORS
+// Pre-flight request for CORS
+// app.options('*', cors(corsOptions)); 
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -48,7 +48,7 @@ const io = new Server(httpServer, {
 
 // Connect to the mongoDB Atlas through MONGO_URI
 const uri = process.env.MONGO_URI; 
-console.log("uri is ", uri);
+// console.log("uri is ", uri);
 connectDB(uri);
 
 // Socket.io connection
@@ -88,10 +88,6 @@ io.on('connection', (socket) => {
 app.set('io', io);
 
 
-
-
-
-
 app.get('/', (req, res) => {
     res.send('Server is running!');
 });
@@ -103,12 +99,14 @@ app.use('/api/admin', adminRoute);
 
 
 
-httpServer.listen(port, () => {
+// httpServer.listen(port, () => {
+//     console.log(`Server is running on port ${port}`);
+// });
+
+
+app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
-
-
 
 
 
