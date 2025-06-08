@@ -76,13 +76,14 @@ function LoginPage() {
         navigate("/student-home");
       } else {
         const data = await response.json();
-        // console.log(data);
-        // console.log("login failed");
+        console.log(data);
+        console.log("login failed");
         renderErrorToast(data.message);
         return;
       }
     } catch (error) {
-      // console.log(error.message);
+      console.log(error);
+      console.log(error.message);
       renderErrorToast(error.message);
     }
   };
